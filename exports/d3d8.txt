@@ -1,0 +1,4 @@
+Direct3DCreate8 4
+DebugSetMute 0
+ValidatePixelShader 16
+ValidateVertexShader 20

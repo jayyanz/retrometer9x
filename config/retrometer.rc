@@ -1,0 +1,114 @@
+#include <windows.h>
+#include "resource.h"
+
+IDI_APP ICON "retrometer.ico"
+
+IDD_MAIN DIALOG 0, 0, 560, 312
+STYLE DS_MODALFRAME | DS_CENTER | DS_3DLOOK | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX
+CAPTION "Retrometer 9x"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Games", -1, 7, 4, 160, 302
+    LISTBOX         IDC_GAMES, 14, 16, 146, 232, LBS_NOTIFY | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "&Add game...", IDC_ADD, 14, 252, 72, 14
+    PUSHBUTTON      "&Change overlays...", IDC_CHANGE, 88, 252, 72, 14
+    PUSHBUTTON      "&Remove from game", IDC_REMOVE, 14, 270, 72, 14
+    PUSHBUTTON      "Re&pair", IDC_REPAIR, 88, 270, 72, 14
+    PUSHBUTTON      "&Open folder", IDC_OPEN, 14, 288, 72, 14
+
+    GROUPBOX        "Details", IDC_DETGROUP, 174, 4, 230, 74
+    LTEXT           "", IDC_INFO, 181, 15, 216, 46, SS_NOPREFIX
+    AUTOCHECKBOX    "Use the ""All games"" settings for this game", IDC_USEGLOBAL, 181, 63, 216, 10
+
+    GROUPBOX        "Toggle key", -1, 174, 82, 230, 42
+    COMBOBOX        IDC_KEY, 181, 94, 80, 160, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "&Detect key...", IDC_DETECT, 265, 93, 60, 14
+    AUTOCHECKBOX    "Ctrl", IDC_CTRL, 181, 110, 28, 10
+    AUTOCHECKBOX    "Alt", IDC_ALT, 211, 110, 26, 10
+    AUTOCHECKBOX    "Shift", IDC_SHIFT, 239, 110, 32, 10
+    AUTOCHECKBOX    "Show at game start", IDC_VISIBLE, 300, 110, 98, 10
+
+    GROUPBOX        "Position and size", -1, 174, 128, 112, 104
+    LTEXT           "Corner:", -1, 181, 140, 40, 8
+    COMBOBOX        IDC_CORNER, 181, 150, 98, 80, CBS_DROPDOWNLIST | WS_TABSTOP
+    LTEXT           "Offset X:", -1, 181, 170, 30, 8
+    EDITTEXT        IDC_X, 213, 168, 24, 12, ES_NUMBER
+    LTEXT           "Y:", -1, 241, 170, 8, 8
+    EDITTEXT        IDC_Y, 251, 168, 24, 12, ES_NUMBER
+    LTEXT           "Size:", -1, 181, 188, 40, 8
+    COMBOBOX        IDC_SCALE, 181, 198, 98, 100, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+
+    GROUPBOX        "Appearance", -1, 290, 128, 114, 104
+    LTEXT           "", IDC_SWATCH, 297, 140, 18, 12, WS_BORDER
+    PUSHBUTTON      "&Text colour...", IDC_COLOR, 319, 139, 78, 14
+    AUTOCHECKBOX    "Background", IDC_BG, 297, 158, 50, 10
+    LTEXT           "", IDC_BGSWATCH, 349, 157, 18, 12, WS_BORDER
+    PUSHBUTTON      "...", IDC_BGCOLOR, 371, 156, 26, 14
+    AUTOCHECKBOX    "Show ""FPS"" label", IDC_LABEL, 297, 174, 100, 10
+    AUTOCHECKBOX    "Show frame time (ms)", IDC_FRAMETIME, 297, 186, 100, 10
+    LTEXT           "Update:", -1, 297, 202, 28, 8
+    COMBOBOX        IDC_INTERVAL, 327, 200, 70, 80, CBS_DROPDOWNLIST | WS_TABSTOP
+    AUTOCHECKBOX    "Write log file", IDC_LOG, 297, 218, 100, 10
+
+    GROUPBOX        "Frame rate cap", -1, 174, 236, 230, 70
+    AUTOCHECKBOX    "Cap on when the game starts", IDC_CAPON, 181, 249, 110, 10
+    LTEXT           "Limit to:", -1, 300, 250, 30, 8
+    EDITTEXT        IDC_CAPFPS, 332, 248, 26, 12, ES_NUMBER
+    LTEXT           "fps", -1, 362, 250, 20, 8
+    LTEXT           "Cap hotkey:", -1, 181, 267, 40, 8
+    COMBOBOX        IDC_CAPKEY, 223, 265, 62, 160, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "...", IDC_CAPDETECT, 288, 264, 18, 14
+    AUTOCHECKBOX    "Ctrl", IDC_CAPCTRL, 311, 266, 26, 10
+    AUTOCHECKBOX    "Alt", IDC_CAPALT, 339, 266, 22, 10
+    AUTOCHECKBOX    "Shift", IDC_CAPSHIFT, 363, 266, 32, 10
+    LTEXT           "Hotkey does:", -1, 181, 285, 42, 8
+    COMBOBOX        IDC_CAPMODE, 223, 283, 84, 60, CBS_DROPDOWNLIST | WS_TABSTOP
+    LTEXT           "Steps:", -1, 312, 285, 22, 8
+    EDITTEXT        IDC_CAPLIST, 336, 283, 61, 12, ES_AUTOHSCROLL
+
+    GROUPBOX        "Preview", -1, 410, 4, 143, 176
+    CONTROL         "", IDC_PREVIEW, "FpsPreview", WS_CHILD | WS_VISIBLE | WS_BORDER, 417, 16, 129, 97
+    LTEXT           "Screen:", -1, 417, 119, 28, 8
+    COMBOBOX        IDC_PREVRES, 447, 117, 99, 80, CBS_DROPDOWNLIST | WS_TABSTOP
+    LTEXT           "Actual size:", -1, 417, 134, 60, 8
+    CONTROL         "", IDC_ACTUAL, "FpsPreview", WS_CHILD | WS_VISIBLE | WS_BORDER, 417, 144, 129, 30
+
+    LTEXT           "", IDC_STATUS, 410, 186, 143, 70, SS_NOPREFIX
+    DEFPUSHBUTTON   "&Save", IDC_SAVE, 410, 272, 68, 14
+    PUSHBUTTON      "De&faults", IDC_DEFAULTS, 485, 272, 68, 14
+    PUSHBUTTON      "Close", IDC_CLOSE, 485, 292, 68, 14
+END
+
+IDD_ADD DIALOG 0, 0, 312, 196
+STYLE DS_MODALFRAME | DS_CENTER | DS_3DLOOK | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Add game"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Game name:", -1, 7, 9, 42, 8
+    EDITTEXT        IDC_A_NAME, 52, 7, 150, 12, ES_AUTOHSCROLL
+    LTEXT           "", IDC_A_EXE, 7, 24, 298, 8, SS_NOPREFIX
+
+    LTEXT           "Overlay", -1, 7, 40, 70, 8
+    LTEXT           "What was found", -1, 88, 40, 110, 8
+    LTEXT           "Rename the game's own DLL to", -1, 204, 40, 104, 8
+
+    AUTOCHECKBOX    "OpenGL", IDC_A_CHK0 + 0, 7, 53, 78, 10
+    LTEXT           "", IDC_A_FOUND0 + 0, 88, 54, 112, 8, SS_NOPREFIX
+    EDITTEXT        IDC_A_NEW0 + 0, 204, 52, 101, 12, ES_AUTOHSCROLL
+    AUTOCHECKBOX    "Glide 2", IDC_A_CHK0 + 1, 7, 69, 78, 10
+    LTEXT           "", IDC_A_FOUND0 + 1, 88, 70, 112, 8, SS_NOPREFIX
+    EDITTEXT        IDC_A_NEW0 + 1, 204, 68, 101, 12, ES_AUTOHSCROLL
+    AUTOCHECKBOX    "Glide 3", IDC_A_CHK0 + 2, 7, 85, 78, 10
+    LTEXT           "", IDC_A_FOUND0 + 2, 88, 86, 112, 8, SS_NOPREFIX
+    EDITTEXT        IDC_A_NEW0 + 2, 204, 84, 101, 12, ES_AUTOHSCROLL
+    AUTOCHECKBOX    "Direct3D 8", IDC_A_CHK0 + 3, 7, 101, 78, 10
+    LTEXT           "", IDC_A_FOUND0 + 3, 88, 102, 112, 8, SS_NOPREFIX
+    EDITTEXT        IDC_A_NEW0 + 3, 204, 100, 101, 12, ES_AUTOHSCROLL
+    AUTOCHECKBOX    "DirectDraw / D3D 3-7", IDC_A_CHK0 + 4, 7, 117, 80, 10
+    LTEXT           "", IDC_A_FOUND0 + 4, 88, 118, 112, 8, SS_NOPREFIX
+    EDITTEXT        IDC_A_NEW0 + 4, 204, 116, 101, 12, ES_AUTOHSCROLL
+
+    LTEXT           "", IDC_A_NOTE, 7, 136, 298, 34, SS_NOPREFIX
+    DEFPUSHBUTTON   "Install", IDOK, 192, 175, 56, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 250, 175, 56, 14
+END
