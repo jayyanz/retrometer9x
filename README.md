@@ -70,7 +70,7 @@ tools/     helper for regenerating the Glide export lists
 
 ## Status
 
-Version 0.1.0. Everything has been tested under Wine:
+**Public beta: 0.1.0-beta.1.** Download it from [Releases](https://github.com/jayyanz/retrometer9x/releases). Everything has been tested under Wine:
 
 - **Direct3D 8 and DirectDraw:** real rendering. The overlay draws, the game's render state is restored, and both page-flip and windowed blit paths work.
 - **Glide:** a stand-in driver. The pixels written to the back buffer were checked.
@@ -78,7 +78,7 @@ Version 0.1.0. Everything has been tested under Wine:
 - **Frame cap:** measured accuracy and hotkeys.
 - **Manager:** install, rename, patch, repair and remove, driven through the GUI.
 
-**It has not yet been tested on real Windows 98 hardware.** Reports from real Voodoo, TNT, Rage and Rendition machines are very welcome. Set `Log=1` in `retrometer.ini` and include `retrometer.log` with any report.
+**It has not yet been tested on real Windows 98 hardware.** Reports from real Voodoo, TNT, Rage and Rendition machines are very welcome. Please [open an issue](https://github.com/jayyanz/retrometer9x/issues/new/choose) using the bug report template, which asks for your hardware, drivers and `retrometer.log` (set `Log=1` in the game's `retrometer.ini`). Reports that it works are just as useful as bug reports.
 
 Known limits:
 - Windowed DirectDraw games that copy to the screen several times per frame over-count, and they aren't frame-capped.

@@ -1,5 +1,5 @@
-Retrometer 9x 0.1.0 - FPS counter and frame limiter for Windows 95/98/ME
-==========================================================================
+Retrometer 9x 0.1.0-beta.1 - FPS counter and frame limiter for Windows 95/98/ME
+===============================================================================
 
 Small proxy DLLs that sit in a game's folder, pass every call through to the
 real driver, and draw a frames-per-second number in the top-left corner.
