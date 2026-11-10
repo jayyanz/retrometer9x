@@ -256,3 +256,9 @@ Building
   On Linux with mingw-w64 (gcc + windres) and Python 3:   sh build.sh
   Output goes to out/. The export forwarders are generated from the lists in
   exports/ by gen/gen_stubs.py.
+
+
+License
+-------
+Public domain (The Unlicense, see LICENSE.txt or https://unlicense.org).
+Source: https://github.com/jayyanz/retrometer9x

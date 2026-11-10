@@ -106,4 +106,4 @@ Known limits:
 
 ## License
 
-TBD
+Public domain ([The Unlicense](LICENSE)). Use it, change it, ship it, no credit required.

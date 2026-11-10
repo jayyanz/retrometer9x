@@ -36,3 +36,4 @@ $CC $CFLAGS -s -o $OUT/retrometer.exe config/retrometer.c config/gamedb.c common
     -nostdlib $LDOS -Wl,-e,_entry@0 $LIBS -lcomdlg32 -lshell32
 echo "built $OUT/retrometer.exe"
 cp dist-README.txt $OUT/README.txt
+cp LICENSE $OUT/LICENSE.txt
