@@ -33,11 +33,30 @@
 
 **Why DirectDraw is different:** Windows 9x won't load two DLLs with the same module name, so each proxy chains to a renamed copy of the real driver. That doesn't work for `ddraw.dll`, which other parts of the system load by its exact name. So for DirectDraw the manager rewrites the game's import name instead. The new name is the same length, and a backup is kept.
 
+## Which overlay do I need?
+
+Install the overlay for the renderer you **play with**. One per game is normal.
+
+| You play the game in... | Install |
+|---|---|
+| 3dfx / Glide mode (real Voodoo or a Glide wrapper) | Glide 2 or Glide 3 |
+| OpenGL mode, or with a MiniGL (Quake engine games etc.) | OpenGL |
+| A DirectX 8 game (roughly 2001 onwards) | Direct3D 8 |
+| 2D DirectDraw, software rendering via DirectDraw, or the **Direct3D** mode of a 1996–2001 game (DirectX 3–7) | DirectDraw |
+
+> **Only use the DirectDraw overlay when DirectDraw (or Direct3D 7 or older) is the game's renderer.** Most games of the era import `DDRAW.DLL` even when you play them in Glide or OpenGL, just for menus, videos, mode switching or a second renderer. Adding the DirectDraw overlay to those causes:
+> - a second counter in menus;
+> - wrong readings;
+> - the frame cap acting on menus;
+> - problems in Glide mode.
+>
+> The manager won't tick DirectDraw when it finds another API, and it warns you if you tick both. To undo it, use **Change overlays** and untick DirectDraw; the exe is restored.
+
 ## Quick start
 
 1. Unzip a release into its own folder, e.g. `C:\Program Files\Retrometer`.
 2. Run `retrometer.exe` and click **Add game...**.
-3. Pick the game's exe. Check the detected overlays and any suggested renames, then click **Install**.
+3. Pick the game's exe. Check the detected overlays (see [Which overlay do I need?](#which-overlay-do-i-need)) and any suggested renames, then click **Install**.
 4. Play. Press **F11** to show or hide the counter and **F12** for the frame cap.
 
 Manual install and all the ini settings are covered in [`dist-README.txt`](dist-README.txt), which ships with releases as `README.txt`.

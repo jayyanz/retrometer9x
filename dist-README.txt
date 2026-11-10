@@ -19,6 +19,38 @@ Pentium-class CPUs (no CMOV/SSE), so it also runs on K6-2 / Pentium MMX boxes.
   fpsdd.dll      DirectDraw and Direct3D 3/5/6/7    copy + run rmpatch.exe
   rmpatch.exe   (helper for fpsdd.dll)
 
+Which overlay do I install? (read this before using DirectDraw)
+--------------------------------------------------------------
+Install the overlay for the renderer you actually play with. One overlay per
+game is normal.
+
+  Glide 2 / Glide 3   the game is set to 3dfx / Glide mode (real Voodoo card
+                      or a Glide wrapper)
+  OpenGL              the game is in OpenGL mode, or uses a MiniGL (Quake,
+                      Quake 2, Half-Life in OpenGL mode, etc.)
+  Direct3D 8          games that need DirectX 8 (roughly 2001 onwards)
+  DirectDraw          ONLY games that draw with DirectDraw or with Direct3D 7
+                      or older:
+                        - 2D DirectDraw games
+                        - software-rendered games that show their picture
+                          through DirectDraw
+                        - the "Direct3D" mode of games from about 1996-2001
+                          (DirectX 3 to 7)
+
+Do NOT add DirectDraw to a game you play in Glide, OpenGL or Direct3D 8 mode,
+even though the manager says the exe uses DDRAW.DLL. Most games of the era
+import DirectDraw just for menus, intro videos, changing screen mode or a
+second renderer. Installing it as well gives you a second counter in menus
+and videos, wrong readings, and the frame cap acting on menus, and it has been
+seen to cause problems in Glide mode. The manager doesn't tick DirectDraw when
+it finds another API and warns you if you tick both. If you've already
+installed it, use Change overlays, untick DirectDraw, and the exe is put back.
+
+Games with several renderers (e.g. Glide / Direct3D / Software in the video
+options): install the overlay for the mode you play in. If you switch modes,
+you can install both and accept the warning.
+
+
 Using the manager (retrometer.exe)
 ----------------------------------
 Unzip everything into a folder of its own, e.g. C:\Program Files\Retrometer,

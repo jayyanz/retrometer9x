@@ -354,6 +354,17 @@ static void add_update_rows(HWND dlg, AddCtx *c)
     }
 }
 
+/* Many Glide / OpenGL / Direct3D 8 games also import DDRAW.DLL just for mode
+ * switching, menus or video. DirectDraw is only the right overlay when it is
+ * the game's renderer, so don't suggest it when another API was found. */
+static int other_api_found(const AddCtx *c)
+{
+    int a;
+    for (a = 0; a < API_DDRAW; a++)
+        if (c->d.level[a] != DET_NONE || c->d.oursPresent[a] || (c->g->installed & (1u << a))) return 1;
+    return 0;
+}
+
 static void add_init(HWND dlg, AddCtx *c)
 {
     char t[300];
@@ -375,7 +386,9 @@ static void add_init(HWND dlg, AddCtx *c)
         SetDlgItemTextA(dlg, IDC_A_FOUND0 + a, t);
 
         tick = inst || c->d.oursPresent[a] ||
-               (a == API_DDRAW ? (c->d.ddrawFiles[0] != 0) : (c->d.level[a] != DET_NONE));
+               (a == API_DDRAW ? (c->d.ddrawFiles[0] != 0 && !other_api_found(c)) : (c->d.level[a] != DET_NONE));
+        if (a == API_DDRAW && !inst && c->d.ddrawFiles[0] && other_api_found(c))
+            wsprintfA(t, "Used by %s - see note", w), SetDlgItemTextA(dlg, IDC_A_FOUND0 + a, t);
         CheckDlgButton(dlg, IDC_A_CHK0 + a, tick ? BST_CHECKED : BST_UNCHECKED);
         if (a == API_DDRAW && !inst && !c->d.ddrawFiles[0] && !c->d.fpsddFiles[0])
             EnableWindow(GetDlgItem(dlg, IDC_A_CHK0 + a), FALSE);
@@ -391,9 +404,10 @@ static void add_init(HWND dlg, AddCtx *c)
         SendDlgItemMessageA(dlg, IDC_A_NEW0 + a, EM_SETREADONLY, !rename_needed(c, a), 0);
     }
     SetDlgItemTextA(dlg, IDC_A_NOTE,
-        "Ticked overlays are copied into the game folder. If the game ships its own driver DLL, it is "
-        "renamed to the name on the right (not deleted) and gets its old name back when you remove the "
-        "overlay. DirectDraw also patches the game's exe; a backup is kept.");
+        "Tick the overlay for the renderer you play with. DirectDraw is only for games that draw with "
+        "DirectDraw or Direct3D 7 and older: many Glide/OpenGL games import it just for menus, so leave it "
+        "off for those. A DLL the game ships is renamed (not deleted) and restored on removal; DirectDraw "
+        "also patches the exe (backup kept).");
     add_update_rows(dlg, c);
 }
 
@@ -450,6 +464,20 @@ static int add_ok(HWND dlg, AddCtx *c)
     if (!any) {
         if (!c->change) { MessageBoxA(dlg, "Tick at least one overlay to install.", "Retrometer 9x", MB_OK | MB_ICONINFORMATION); return 0; }
         return 1;   /* only the name changed */
+    }
+    if (c->want[API_DDRAW] && !(c->g->installed & (1u << API_DDRAW))) {
+        int b, other = -1;
+        for (b = 0; b < API_DDRAW; b++) if (c->want[b]) { other = b; break; }
+        if (other >= 0) {
+            char w[700];
+            wsprintfA(w, "You've ticked both %s and DirectDraw.\r\n\r\n"
+                         "Only add DirectDraw if you also play this game in its Direct3D or software mode. "
+                         "If you play in %s, the game probably uses DirectDraw only for menus and videos, "
+                         "and the DirectDraw overlay would add a second counter there and apply the frame "
+                         "cap to menus.\r\n\r\nInstall DirectDraw anyway?",
+                      g_apis[other].label, g_apis[other].label);
+            if (MessageBoxA(dlg, w, "Retrometer 9x", MB_YESNO | MB_ICONWARNING | MB_DEFBUTTON2) != IDYES) return 0;
+        }
     }
     if (renames && MessageBoxA(dlg, q, "Retrometer 9x", MB_OKCANCEL | MB_ICONQUESTION) != IDOK) return 0;
     return 1;
